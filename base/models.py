@@ -16,3 +16,5 @@ class Climax(models.Model):
     date = models.DateField()
     temperature = models.FloatField()
     created = models.DateTimeField(auto_now_add=True)
+
+

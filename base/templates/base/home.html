@@ -6,14 +6,34 @@
 
 <a class="btn btn-primary" href="{% url 'createClimax' %}">Add new climax data</a>
 
-{% for climax in climaxs %}
 
-<a href="climax/{{climax.city}}"><h1>{{climax.city}}</h1></a>
-<h3>{{climax.date}}</h3>
-<h3>{{climax.temperature}}</h3>
-<h5>{{climax.created}}</h5>
-<a href="{% url 'updateClimax' climax.id %}">Edit</a>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">City</th>
+            <th scope="col">Date</th>
+            <th scope="col">temperature</th>
+            <th scope="col">Created At</th>
+            <th scope="col">More</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for climax in climaxs %}
+        <tr>
+            <th scope="row"><a href="climax/{{climax.city}}">{{climax.city}}</a></th>
+            <td>{{climax.date}}</td>
+            <td>{{climax.temperature}}</td>
+            <td>{{climax.created}}</td>
+            <td><a href="{% url 'updateClimax' climax.id %}">Edit</a>
+                <a href="{% url 'deleteClimax' climax.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-{% endfor %}
+
 
 {% endblock %}

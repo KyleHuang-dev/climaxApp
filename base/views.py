@@ -17,12 +17,9 @@ def home(request):
 
 
 def climax(request, pk):
-    city = City.objects.get(name = pk)
-    climaxs = Climax.objects.filter(city = city.id)
+    climaxs = Climax.objects.filter(city__name__icontains = pk)
     
-    context = {
-        'city' : city,
-        'climaxs': climaxs}
+    context = {'climaxs': climaxs}
     return render(request, 'base/climax.html', context)
  
 
@@ -53,4 +50,13 @@ def updateClimax(request, pk):
     return render(request, 'base/climaxForm.html', context)
 
 
+def deleteClimax(request, pk):
+    climax = Climax.objects.get( id = pk )
+
+    if request.method == 'POST':
+        climax.delete()
+        return redirect('home')
+
+    context = f"{climax.city} {climax.date} at {climax.temperature}"
+    return render(request, 'base/deleteForm.html', {'obj': context})
     

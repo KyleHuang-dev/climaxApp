@@ -7,5 +7,5 @@ urlpatterns = [
 
     path('createClimax', views.createClimax, name = "createClimax"),
     path('updateClimax/<str:pk>', views.updateClimax, name = "updateClimax"),
-
+    path('deleteClimax/<str:pk>', views.deleteClimax, name = "deleteClimax"),
 ]
