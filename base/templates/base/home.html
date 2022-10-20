@@ -1,0 +1,19 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Hello </h1>
+
+<a class="btn btn-primary" href="{% url 'createClimax' %}">Add new climax data</a>
+
+{% for climax in climaxs %}
+
+<a href="climax/{{climax.city}}"><h1>{{climax.city}}</h1></a>
+<h3>{{climax.date}}</h3>
+<h3>{{climax.temperature}}</h3>
+<h5>{{climax.created}}</h5>
+<a href="{% url 'updateClimax' climax.id %}">Edit</a>
+
+{% endfor %}
+
+{% endblock %}
