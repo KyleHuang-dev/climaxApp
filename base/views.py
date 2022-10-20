@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q 
 from .models import City, Climax
 from .forms import ClimaxForm
 
@@ -7,8 +8,15 @@ from .forms import ClimaxForm
 
 
 def home(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else''
+
     city = City.objects.all()
-    climaxs = Climax.objects.all()
+
+    climaxs = Climax.objects.filter(
+        Q(city__name__icontains=q) |
+        Q(temperature__icontains =q)|
+        Q(date__icontains = q)
+    )
     
     context = {
         'city' : city,
