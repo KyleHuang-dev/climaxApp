@@ -53,30 +53,32 @@
 
 <script>
 
-
 const labels = [
     {% for climax in climaxs %}
     "{{climax.date}}",
     {% endfor %}
     ].sort();
 
+function ramdomColor(){
+    return `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})` 
+} 
 
 const data = {
   labels: labels,
   datasets: [
     {% for location in city %}
     {
+        
         label: '{{location.name}}',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: ramdomColor(),
+        borderColor: ramdomColor(),
         data: [   
 
-        // Need to fix 
-        {% for climax in climaxs %}
-            "{{climax.temperature}}",
-        {% endfor %}
-
-        
+        {% for climax in location.climax_set.all%}
+            {% if location == climax.city %}
+                "{{climax.temperature}}", 
+            {% endif %}
+        {% endfor %}    
         ],
       },
     {% endfor %}
@@ -84,7 +86,7 @@ const data = {
 };
 
 const config = {
-  type: 'line',
+  type: 'bar',
   data: data,
   options: {
     responsive: true,
@@ -98,6 +100,7 @@ const config = {
       }
     }
   },
+  
 };
 
 </script>
