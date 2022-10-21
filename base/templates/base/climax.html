@@ -1,13 +1,68 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<h1>hello</h1>
-<h1>{{city.name}} </h1>
+<h1>Climax Detail</h1>
 
-{% for climax in climaxs %}
-<h3>{{climax.city}}</h3>
-<h3>{{climax.date}}</h3>
-<h3>{{climax.temperature}}</h3>
-{% endfor %}
+
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">City</th>
+            <th scope="col">Date</th>
+            <th scope="col">temperature</th>
+            <th scope="col">Created At</th>
+            <th scope="col">More</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for climax in climaxs %}
+        <tr>
+            <th scope="row">{{climax.city}}</th>
+            <td>{{climax.date}}</td>
+            <td>{{climax.temperature}}</td>
+            <td>{{climax.created | timesince}}</td>
+            <td><a href="{% url 'updateClimax' climax.id %}">Edit</a>
+                <a href="{% url 'deleteClimax' climax.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<div class="w-50 container">
+    <canvas id="myChart"></canvas>
+</div>
+
+
+
+
+<script>
+    const data = {
+      labels: {{labels | safe}},
+      datasets: [
+        {
+        label: '{{city}}',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: {{data | safe}},
+      }
+    ]};
+  
+    const config = {
+      type: 'line',
+      data: data,
+      options: {}
+    };
+</script>
+<script>
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+</script>
 
 {% endblock %}

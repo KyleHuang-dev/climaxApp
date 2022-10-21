@@ -44,4 +44,70 @@
 
 
 
+
+<div class="w-50 container">
+    <canvas id="myChart"></canvas>
+</div>
+
+
+
+<script>
+
+
+const labels = [
+    {% for climax in climaxs %}
+    "{{climax.date}}",
+    {% endfor %}
+    ].sort();
+
+
+const data = {
+  labels: labels,
+  datasets: [
+    {% for location in city %}
+    {
+        label: '{{location.name}}',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: [   
+
+        // Need to fix 
+        {% for climax in climaxs %}
+            "{{climax.temperature}}",
+        {% endfor %}
+
+        
+        ],
+      },
+    {% endfor %}
+ ]
+};
+
+const config = {
+  type: 'line',
+  data: data,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Chart.js Line Chart'
+      }
+    }
+  },
+};
+
+</script>
+<script>
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+</script>
+
+
 {% endblock %}
+

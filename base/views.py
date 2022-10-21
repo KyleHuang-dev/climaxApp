@@ -17,6 +17,7 @@ def home(request):
         Q(temperature__icontains =q)|
         Q(date__icontains = q)
     )
+
     
     context = {
         'city' : city,
@@ -25,9 +26,23 @@ def home(request):
 
 
 def climax(request, pk):
-    climaxs = Climax.objects.filter(city__name__icontains = pk)
+    climaxs = Climax.objects.filter(city__name__icontains = pk).order_by("date")
     
-    context = {'climaxs': climaxs}
+    labels = []
+    data = []
+    city = ''
+    for climax in climaxs:
+        city = climax.city
+        labels.append(f"{climax.date}")
+        data.append(f"{climax.temperature}")
+    
+    
+    context = {
+        'climaxs': climaxs,
+        "labels" : labels,
+        "data" : data,
+        "city" : city
+        }
     return render(request, 'base/climax.html', context)
  
 
